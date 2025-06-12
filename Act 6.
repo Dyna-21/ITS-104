@@ -1,0 +1,163 @@
+using System;
+
+
+namespace TestTime
+
+{
+
+    public struct Time
+
+    {
+
+        private readonly int minutes;
+
+
+     
+
+        public Time(int hh, int mm)
+
+        {
+
+            this.minutes = 60 * hh + mm;
+
+        }
+
+
+      
+
+        public Time(int totalMinutes)
+
+        {
+
+            this.minutes = totalMinutes;
+
+        }
+
+
+        
+
+        public static implicit operator Time(int totalMinutes)
+
+        {
+
+            return new Time(totalMinutes);
+
+        }
+
+
+       
+
+        public static explicit operator int(Time t)
+
+        {
+
+            return t.minutes;
+
+        }
+
+
+     
+
+        public int Hour => minutes / 60;
+
+
+      
+
+        public int Minute => minutes % 60;
+
+
+        
+
+        public static Time operator +(Time t1, Time t2)
+
+        {
+
+            return new Time(t1.minutes + t2.minutes);
+
+        }
+
+
+       
+
+        public static Time operator -(Time t1, Time t2)
+
+        {
+
+            return new Time(t1.minutes - t2.minutes);
+
+        }
+
+
+        
+
+        public override string ToString()
+
+        {
+
+            return String.Format("{0:D2}:{1:D2}", Hour, Minute);
+
+        }
+
+    }
+
+
+    class Program
+
+    {
+
+        static void Main(string[] args)
+
+        {
+
+            Time morningTime = new Time(10, 5);  
+
+            Time earlyTime = new Time(0, 45);    
+
+            Time noonTime = new Time(12, 0);     
+
+            Time nightTime = new Time(23, 45);    
+
+
+            Console.WriteLine("Morning time: " + morningTime);
+
+            Console.WriteLine("Early time: " + earlyTime);
+
+            Console.WriteLine("Noon time: " + noonTime);
+
+            Console.WriteLine("Night time: " + nightTime);
+
+
+            Console.WriteLine("Night time hour: " + nightTime.Hour);
+
+            Console.WriteLine("Night time minute: " + nightTime.Minute);
+
+
+          
+
+            Time addedTime = morningTime + earlyTime;
+
+            Time subtractedTime = nightTime - morningTime;
+
+            Console.WriteLine("Added Time (morning + early): " + addedTime);
+
+            Console.WriteLine("Subtracted Time (night - morning): " + subtractedTime);
+
+
+          
+
+            Time implicitConvertedTime = 150; 
+
+            Console.WriteLine("Implicitly converted Time (150 min): " + implicitConvertedTime);
+
+
+            
+
+            int totalMinutes = (int)morningTime;
+
+            Console.WriteLine("Explicitly converted Time to int (morningTime): " + totalMinutes + " minutes");
+
+        }
+
+    }
+
+}
